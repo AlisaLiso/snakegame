@@ -13,6 +13,10 @@ let width,
   score = 0,
   isPaused = false;
 
+const snakeColor = "#21bf73";
+const foodColor = "#fd5e53";
+const stroke = "#272121";
+
 // Food Initialization
 class Food {
   constructor(pos, color) {
@@ -27,7 +31,7 @@ class Food {
     ctx.rect(this.x, this.y, tileSize, tileSize);
     ctx.fillStyle = this.color;
     ctx.fill();
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = stroke;
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.closePath();
@@ -55,7 +59,7 @@ class Snake {
     ctx.rect(this.x, this.y, tileSize, tileSize);
     ctx.fillStyle = this.color;
     ctx.fill();
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = stroke;
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.closePath();
@@ -66,7 +70,7 @@ class Snake {
       ctx.rect(this.tail[i].x, this.tail[i].y, tileSize, tileSize);
       ctx.fillStyle = this.color;
       ctx.fill();
-      ctx.strokeStyle = "black";
+      ctx.strokeStyle = stroke;
       ctx.lineWidth = 3;
       ctx.stroke();
       ctx.closePath();
@@ -168,20 +172,20 @@ function showPaused() {
 // Initialization of the game
 function init() {
   tileSize = 20;
-  width = tileSize * Math.floor(window.innerWidth / tileSize) + tileSize;
-  height = tileSize * Math.floor(window.innerHeight / tileSize) + tileSize;
+  width = tileSize * Math.floor(window.innerWidth / tileSize);
+  height = tileSize * Math.floor(window.innerHeight / tileSize);
   canvas = document.querySelector("#game-wrap");
   canvas.width = width;
   canvas.height = height;
   ctx = canvas.getContext("2d");
   fps = 10;
-  food = new Food(spawnLocation(), "red");
+  food = new Food(spawnLocation(), foodColor);
   snake = new Snake(
     {
       x: tileSize * Math.floor(width / (2 * tileSize)),
       y: tileSize * Math.floor(height / (2 * tileSize)),
     },
-    "#39ff14"
+    snakeColor
   );
 }
 
@@ -189,7 +193,9 @@ function init() {
 function game() {
   init();
 
-  interval = setInterval(update, 1000 / fps);
+  update();
+
+  // interval = setInterval(update, 1000 / fps);
 }
 
 // Updating game
@@ -206,7 +212,7 @@ function update() {
   snake.border();
 
   if (snake.eat()) {
-    food = new Food(spawnLocation(), "red");
+    food = new Food(spawnLocation(), foodColor);
     score += 10;
   }
 
