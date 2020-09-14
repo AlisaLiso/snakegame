@@ -193,9 +193,7 @@ function init() {
 function game() {
   init();
 
-  update();
-
-  // interval = setInterval(update, 1000 / fps);
+  interval = setInterval(update, 1000 / fps);
 }
 
 // Updating game
